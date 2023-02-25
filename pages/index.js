@@ -13,7 +13,7 @@ const getLocalStorageInteraction = () => {
 }
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
+  const [pedidoInput, setPedidoInput] = useState("");
   const [result, setResult] = useState();
   const [interactions, setInteractions] = useState([]);
 
@@ -32,7 +32,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ animal: animalInput }),
+        body: JSON.stringify({ pedido: pedidoInput }),
       });
 
       const data = await response.json();
@@ -41,10 +41,10 @@ export default function Home() {
       }
 
       setResult(data.result);
-      saveLocalStorageInteraction({input: animalInput, result: data.result});
-      interactions.push({input: animalInput, result: data.result});
+      saveLocalStorageInteraction({input: pedidoInput, result: data.result});
+      interactions.push({input: pedidoInput, result: data.result});
       setInteractions(interactions);
-      setAnimalInput("");
+      setPedidoInput("");
     } catch(error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -60,14 +60,15 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h3>Manda sua pergunta.</h3>
+        <h3>Manda seu Pedido!</h3>
+        <p>Te respondo com uma piada curta.</p>
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            name="animal"
-            placeholder="Escreva uma pergunta"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
+            name="pedido"
+            placeholder="Escreva seu pedido"
+            value={pedidoInput}
+            onChange={(e) => setPedidoInput(e.target.value)}
           />
           <input type="submit" value="Gerar com openai" />
         </form>
@@ -78,7 +79,7 @@ export default function Home() {
         <h5>Historico:</h5>
         <textarea readOnly
           className={styles.textHistory}
-          value={interactions.map(function(d, idx){
+          value={interactions.map(function(d){
             return `Pedido: ${d.input} : ${d.result}\n\n`
           })}>
         </textarea>

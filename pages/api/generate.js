@@ -15,23 +15,20 @@ export default async function (req, res) {
     return;
   }
 
-  const animal = req.body.animal || '';
-  if (animal.trim().length === 0) {
+  const pedido = req.body.pedido || '';
+  if (pedido.trim().length === 0) {
     res.status(400).json({
       error: {
-        message: "Please enter a valid animal",
+        message: "Please enter a valid pedido",
       }
     });
     return;
   }
 
-  //TODO varios prompts
-  console.log('p;',generatePromptComedian(animal));
-
   try {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: generatePromptComedian(animal),
+      prompt: generatePromptComedian(pedido),
       max_tokens: 500,
       temperature: 0.4,
       stop: 'Pergunta:'
@@ -65,7 +62,7 @@ function generatePromptSmart(pergunta) {
           Pergunta: ${pergunta}
           Resposta:`;
 }
-function generatePromptComedian(pergunta) {
+function generatePromptComedian(pedido) {
   return `
   Eu quero que você aja como um comediante de piadas curtas.
   Fornecerei algum tópico e você usará sua inteligência, criatividade e habilidades de observação para criar uma piada baseada nesses tópico.
@@ -76,6 +73,6 @@ function generatePromptComedian(pergunta) {
   Pedido: "uma piada sobre instrumento musical"
   Piada: Por que os tambores não gostam de contar piadas? Porque eles sempre acabam perdendo o ritmo!
 
-  Pedido: ${pergunta}
+  Pedido: ${pedido}
   `;
 }
