@@ -84,6 +84,7 @@ export default function Home() {
           })}>
         </textarea>
       </footer>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3047032865762951" crossorigin="anonymous"></script>
     </div>
   );
 }
